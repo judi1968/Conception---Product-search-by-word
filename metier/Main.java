@@ -15,7 +15,8 @@ public class Main {
             connection = ConnectionPostgres.connectDefault();
 			connection.setAutoCommit(false);
 			String query = WordFunction.getQuery(mot, connection);
-			System.out.println(query);
+
+			System.out.println("\n"+query);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
