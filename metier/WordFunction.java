@@ -12,6 +12,7 @@ public class WordFunction {
     public static Vector<String> orderQuery = new Vector<>();
 
     public static String queryBuild = "";
+    public static String number = "";
 
 
     // 1 - mettre le phrase en liste de mot
@@ -68,7 +69,10 @@ public class WordFunction {
 
     // 4 . former le requette
     public static void buildQuery(int index,int indexMot) throws Exception{
-        String mot = WordFunction.motList.elementAt(indexMot);
+        if (indexMot<WordFunction.motList.size()) {
+            String mot = WordFunction.motList.elementAt(indexMot);
+            
+        
         // System.out.println(mot);
         if(index==0){
             if (
@@ -88,7 +92,9 @@ public class WordFunction {
                     WordFunction.queryBuild = WordFunction.queryBuild.concat(mot);
                     buildQuery(index+1,indexMot+1);
 
-                }   
+                } else {
+                    return;
+                }
     }else if(index==1){
         if(
             (mot.toLowerCase().compareToIgnoreCase("chere")==0 && 
@@ -126,15 +132,79 @@ public class WordFunction {
         ){
             if ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 ) {
                 WordFunction.queryBuild = "";
-                WordFunction.orderQuery.add("qualite asc");
+                WordFunction.orderQuery.add("qualite desc");
             }else{
                 WordFunction.queryBuild = "";
-                WordFunction.orderQuery.add("qualite desc");
+                WordFunction.orderQuery.add("qualite asc");
 
             }
             buildQuery(0,indexMot+1);
 
         }
+        else if(
+            (mot.toLowerCase().compareToIgnoreCase("rapport")==0 && 
+            ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 || WordFunction.queryBuild.compareToIgnoreCase("pire")==0 ))
+        ){
+            WordFunction.queryBuild = WordFunction.queryBuild.concat(" "+mot);
+            buildQuery(index+1,indexMot+1);
+
+        }
+        else if (estParsableEnDouble(mot)) {
+            WordFunction.number = mot;
+           buildQuery(index+1, indexMot+1);
+        }
+    }else if(index==2) {
+        if(mot.toLowerCase().compareToIgnoreCase("ar")==0
+            &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("plus")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire")==0)
+        ){
+            WordFunction.conditionQuery.add("prix>"+WordFunction.number);
+            WordFunction.number = "";
+            WordFunction.queryBuild = "";
+            buildQuery(0,indexMot+1);
+            
+        }else if (mot.toLowerCase().compareToIgnoreCase("ar")==0
+        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("moin")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur")==0 )
+        ) {
+            WordFunction.conditionQuery.add("prix<"+WordFunction.number);
+            WordFunction.number = "";
+            WordFunction.queryBuild = "";
+            buildQuery(0,indexMot+1);
+
+        }else
+        if(mot.toLowerCase().compareToIgnoreCase("q")==0
+            &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("plus")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire")==0 )
+        ){
+            WordFunction.conditionQuery.add("qualite<"+WordFunction.number);
+            WordFunction.number = "";
+            WordFunction.queryBuild = "";
+            buildQuery(0,indexMot+1);
+
+        }else if (mot.toLowerCase().compareToIgnoreCase("q")==0
+        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("moin")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur")==0)
+        ) {
+            WordFunction.conditionQuery.add("qualite>"+WordFunction.number);
+            WordFunction.number = "";
+            WordFunction.queryBuild = "";
+            buildQuery(0,indexMot+1);
+        }else if (mot.toLowerCase().compareToIgnoreCase("qualite")==0
+        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur rapport")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire rapport")==0)
+        ) {
+            WordFunction.queryBuild = WordFunction.queryBuild.concat(" "+mot);
+            buildQuery(index+1,indexMot+1);
+        }
+    }else if (index==3) {
+        if (mot.toLowerCase().compareToIgnoreCase("prix")==0
+        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur rapport qualite")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire rapport qualite")==0)
+        ) {
+            if ( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur rapport qualite")==0) {
+                WordFunction.orderQuery.add("(qualite/prix) asc");
+            }else{
+                WordFunction.orderQuery.add("(qualite/prix) desc");
+            }
+            WordFunction.queryBuild = "";
+            buildQuery(0,indexMot+1);
+        }
+    }
     }
 }
 
@@ -154,6 +224,8 @@ public class WordFunction {
         WordFunction.buildQuery(0,0);
         
         System.out.println(WordFunction.orderQuery);
+        System.out.println(WordFunction.conditionQuery);
+        System.out.println(WordFunction.motList);
         // former le requette
 
         // System.out.println(motList.elementAt(0));

@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 public class Main {
 
     public static void main(String[] args) throws Exception{
-        String mot = "le meilleur qualite de telephone et moin de 1500 Ar";
+        String mot = "telephone meilleur 500 Ar , moin chere et pire qualite ";
         Connection connection = null;
 		try {
             connection = ConnectionPostgres.connectDefault();
@@ -17,6 +17,7 @@ public class Main {
 			String query = WordFunction.getQuery(mot, connection);
 
 			System.out.println("\n"+query);
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
