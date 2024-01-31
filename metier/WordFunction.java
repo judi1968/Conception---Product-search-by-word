@@ -13,6 +13,8 @@ public class WordFunction {
 
         // verifier le nom du produit concerner
         // ... en attente
+        // enlever un element : maVector.removeElementAt(0);
+        
         System.out.println(motList);
     
         return "query";
