@@ -18,6 +18,9 @@ public class Main {
 
             System.out.println(query);
             Produit[] produits = Produit.getAllProduitByQuery(query, connection);
+            for (Produit produit : produits) {
+                System.out.println(produit.getId_produit()+" | "+produit.getDesignationProduit()+" | "+produit.getPrix()+" | "+produit.getQualite());
+            }
 
 		}catch (Exception e) {
 			e.printStackTrace();

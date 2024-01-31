@@ -1,0 +1,8 @@
+<connectionConfig>
+    <ip>localhost</ip>
+    <port>5432</port>
+    <databaseName>produit_mot</databaseName>
+    <userName>postgres</userName>
+    <password>mdpprom15</password>
+</connectionConfig>
+

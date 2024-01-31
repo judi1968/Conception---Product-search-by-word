@@ -1,3 +1,5 @@
+package judi.example.demo.Models.Objects;
+import judi.example.demo.Models.DatabaseConnection.ConnectionPostgres;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
