@@ -13,7 +13,7 @@ public class Main {
         Produit[] produits = null;
 		try {
 			String query = WordFunction.getQuery(mot, connection);
-
+            System.out.println(query);
             produits = Produit.getAllProduitByQuery(query, connection);
             
 		}catch (Exception e) {

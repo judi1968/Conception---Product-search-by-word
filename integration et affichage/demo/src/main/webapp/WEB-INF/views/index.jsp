@@ -72,7 +72,8 @@
             // Envoyer la requête Ajax
             $.ajax({
                 type: "GET",
-                url: "${pageContext.request.contextPath}/produit/"+searchValue, // URL de votre contrôleur Spring
+                url: "${pageContext.request.contextPath}/produit", // URL de votre contrôleur Spring
+                data: { phrase: searchValue },
                 success: function (result) {
                     // Effacer le contenu du tableau
                     $('#productTable tbody').empty();

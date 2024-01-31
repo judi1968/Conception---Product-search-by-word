@@ -10,14 +10,14 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import org.springframework.web.bind.annotation.PathVariable;
+// import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
 public class ApiController {
-    @GetMapping("produit/{phrase}")
-    public Map<String, Object> produitByPhrase(@PathVariable String phrase) throws Exception{
+    @GetMapping("/produit")
+    public Map<String, Object> produitByPhrase(@RequestParam String phrase) throws Exception{
         Map<String, Object> resultat = new HashMap<>();
         int status = 0;
         String titre = null;
@@ -25,6 +25,7 @@ public class ApiController {
         Produit[] produits = null;
         Connection connection = null;
         try {
+            // String phrase = (String) requestBody.get("phrase");
             connection = ConnectionPostgres.connectDefault();
             connection.setAutoCommit(false);
             produits = Main.getAllProduitByPhrase(phrase,connection);

@@ -224,9 +224,9 @@ public class WordFunction {
         WordFunction.removeWordNotConcerned(connection);
         WordFunction.buildQuery(0,0);
         
-        // System.out.println(WordFunction.orderQuery);
-        // System.out.println(WordFunction.conditionQuery);
-        // System.out.println(WordFunction.motList);
+        System.out.println(WordFunction.orderQuery);
+        System.out.println(WordFunction.conditionQuery);
+        System.out.println(WordFunction.motList);
         // former le requette
         String query = "select * from produit where id_categorie_fk="+WordFunction.categorieConcerner.getIdCategorie();
         for (int i = 0 ; i < WordFunction.conditionQuery.size() ; i++) {
@@ -240,6 +240,14 @@ public class WordFunction {
                 query = query.concat(" , "+WordFunction.orderQuery.elementAt(i));
             }
         }
+
+        WordFunction.conditionQuery = null;
+        WordFunction.orderQuery = null;
+        WordFunction.queryBuild = "";
+        WordFunction.number = "";
+
+        WordFunction.conditionQuery = new Vector<>();
+        WordFunction.orderQuery = new Vector<>();
     
         return query;
     }

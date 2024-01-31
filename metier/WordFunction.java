@@ -240,6 +240,13 @@ public class WordFunction {
             }
         }
     
+        WordFunction.conditionQuery = null;
+        WordFunction.orderQuery = null;
+        WordFunction.queryBuild = "";
+        WordFunction.number = "";
+
+        WordFunction.conditionQuery = new Vector<>();
+        WordFunction.orderQuery = new Vector<>();
         return query;
     }
   /****************************************************************************************************** */  
