@@ -8,6 +8,12 @@ public class WordFunction {
     public static Categorie categorieConcerner;
     public static Vector<String> motList;
 
+    public static Vector<String> conditionQuery = new Vector<>();
+    public static Vector<String> orderQuery = new Vector<>();
+
+    public static String queryBuild = "";
+
+
     // 1 - mettre le phrase en liste de mot
     public static void setMotList(String phrase) {
         String[] phraseSpliter = phrase.split(" ");
@@ -61,6 +67,76 @@ public class WordFunction {
     }
 
     // 4 . former le requette
+    public static void buildQuery(int index,int indexMot) throws Exception{
+        String mot = WordFunction.motList.elementAt(indexMot);
+        // System.out.println(mot);
+        if(index==0){
+            if (
+                mot.toLowerCase().compareToIgnoreCase("plus")==0 ||
+                mot.toLowerCase().compareToIgnoreCase("moin")==0 
+                )
+                {
+                    WordFunction.queryBuild = WordFunction.queryBuild.concat(mot);
+                    buildQuery(index+1,indexMot+1);
+                }
+            else if
+                (
+                mot.toLowerCase().compareToIgnoreCase("meilleur")==0 ||
+                mot.toLowerCase().compareToIgnoreCase("pire")==0 
+                )  
+                {
+                    WordFunction.queryBuild = WordFunction.queryBuild.concat(mot);
+                    buildQuery(index+1,indexMot+1);
+
+                }   
+    }else if(index==1){
+        if(
+            (mot.toLowerCase().compareToIgnoreCase("chere")==0 && 
+            ( WordFunction.queryBuild.compareToIgnoreCase("plus")==0 || WordFunction.queryBuild.compareToIgnoreCase("moin")==0 ))
+        ){
+            if ( WordFunction.queryBuild.compareToIgnoreCase("plus")==0 ) {
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("prix desc");
+            }else{
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("prix asc");
+
+            }
+            buildQuery(0,indexMot+1);
+
+        }
+        else if(
+            (mot.toLowerCase().compareToIgnoreCase("prix")==0 && 
+            ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 || WordFunction.queryBuild.compareToIgnoreCase("pire")==0 ))
+        ){
+            if ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 ) {
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("prix asc");
+            }else{
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("prix desc");
+
+            }
+            buildQuery(0,indexMot+1);
+
+        }
+        else if(
+            (mot.toLowerCase().compareToIgnoreCase("qualite")==0 && 
+            ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 || WordFunction.queryBuild.compareToIgnoreCase("pire")==0 ))
+        ){
+            if ( WordFunction.queryBuild.compareToIgnoreCase("meilleur")==0 ) {
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("qualite asc");
+            }else{
+                WordFunction.queryBuild = "";
+                WordFunction.orderQuery.add("qualite desc");
+
+            }
+            buildQuery(0,indexMot+1);
+
+        }
+    }
+}
 
   /****************************************************************************************************** */  
 
@@ -75,8 +151,9 @@ public class WordFunction {
         }
         // prendre tout les mots important puis enlever tout les mots pas important
         WordFunction.removeWordNotConcerned(connection);
-        System.out.println(WordFunction.motList);
-
+        WordFunction.buildQuery(0,0);
+        
+        System.out.println(WordFunction.orderQuery);
         // former le requette
 
         // System.out.println(motList.elementAt(0));
