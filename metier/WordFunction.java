@@ -227,10 +227,20 @@ public class WordFunction {
         System.out.println(WordFunction.conditionQuery);
         System.out.println(WordFunction.motList);
         // former le requette
+        String query = "select * from produit where id_categorie_fk="+WordFunction.categorieConcerner.getIdCategorie();
+        for (int i = 0 ; i < WordFunction.conditionQuery.size() ; i++) {
+                query = query.concat(" and "+WordFunction.conditionQuery.elementAt(i));
+        }
 
-        // System.out.println(motList.elementAt(0));
+        for (int i = 0 ; i < WordFunction.orderQuery.size() ; i++) {
+            if (i==0) {
+                query = query.concat(" order by "+WordFunction.orderQuery.elementAt(i));
+            }else{
+                query = query.concat(" , "+WordFunction.orderQuery.elementAt(i));
+            }
+        }
     
-        return "query";
+        return query;
     }
   /****************************************************************************************************** */  
 
