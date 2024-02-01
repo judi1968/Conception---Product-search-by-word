@@ -187,7 +187,7 @@ public class WordFunction {
 
         }else
         if(mot.toLowerCase().compareToIgnoreCase("q")==0
-            &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("plus")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire")==0 )
+            &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("plus")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur")==0 )
         ){
             WordFunction.conditionQuery.add("qualite<"+WordFunction.number);
             WordFunction.number = "";
@@ -195,7 +195,7 @@ public class WordFunction {
             buildQuery(0,indexMot+1);
 
         }else if (mot.toLowerCase().compareToIgnoreCase("q")==0
-        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("moin")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("meilleur")==0)
+        &&( WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("moin")==0 || WordFunction.queryBuild.toLowerCase().compareToIgnoreCase("pire")==0)
         ) {
             WordFunction.conditionQuery.add("qualite>"+WordFunction.number);
             WordFunction.number = "";
