@@ -10,6 +10,7 @@ public class WordFunction {
 
     public static Vector<String> conditionQuery = new Vector<>();
     public static Vector<String> orderQuery = new Vector<>();
+    public static String limitQuery = "";
 
     public static String queryBuild = "";
     public static String number = "";
@@ -92,6 +93,15 @@ public class WordFunction {
                     WordFunction.queryBuild = WordFunction.queryBuild.concat(mot);
                     buildQuery(index+1,indexMot+1);
 
+                }
+                else if
+                (
+                mot.toLowerCase().compareToIgnoreCase("top")==0
+                )  
+                {
+                    WordFunction.queryBuild = WordFunction.queryBuild.concat(mot);
+                    buildQuery(index+1,indexMot+1);
+
                 } else {
                     return;
                 }
@@ -150,8 +160,13 @@ public class WordFunction {
 
         }
         else if (estParsableEnDouble(mot)) {
-            WordFunction.number = mot;
-           buildQuery(index+1, indexMot+1);
+            if ( WordFunction.queryBuild.compareToIgnoreCase("top")==0) {
+                WordFunction.limitQuery = "limit "+mot;
+                buildQuery(0,indexMot+1);
+            }else{
+                WordFunction.number = mot;
+                buildQuery(index+1, indexMot+1);
+            }
         }
     }else if(index==2) {
         if(mot.toLowerCase().compareToIgnoreCase("ar")==0
@@ -225,6 +240,7 @@ public class WordFunction {
         
         System.out.println(WordFunction.orderQuery);
         System.out.println(WordFunction.conditionQuery);
+        System.out.println(WordFunction.limitQuery);
         System.out.println(WordFunction.motList);
         // former le requette
         String query = "select * from produit where id_categorie_fk="+WordFunction.categorieConcerner.getIdCategorie();
@@ -239,7 +255,7 @@ public class WordFunction {
                 query = query.concat(" , "+WordFunction.orderQuery.elementAt(i));
             }
         }
-    
+
         WordFunction.conditionQuery = null;
         WordFunction.orderQuery = null;
         WordFunction.queryBuild = "";
@@ -247,6 +263,10 @@ public class WordFunction {
 
         WordFunction.conditionQuery = new Vector<>();
         WordFunction.orderQuery = new Vector<>();
+        query = query+" "+WordFunction.limitQuery;
+    
+        WordFunction.limitQuery = "";
+
         return query;
     }
   /****************************************************************************************************** */  

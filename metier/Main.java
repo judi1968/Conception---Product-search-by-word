@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 public class Main {
 
     public static void main(String[] args) throws Exception{
-        String mot = "telephone plus de 500 Ar , meilleur rapport qualite prix ";
+        String mot = "top 2 telephone plus de 500 Ar ";
         Connection connection = null;
 		try {
             connection = ConnectionPostgres.connectDefault();
